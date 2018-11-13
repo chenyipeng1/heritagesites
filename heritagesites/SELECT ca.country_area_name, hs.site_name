@@ -1,0 +1,12 @@
+SELECT ca.country_area_name, hs.site_name, hsc.category_name
+ FROM heritage_site hs
+ LEFT JOIN heritage_site_jurisdiction hsj
+ ON hs.heritage_site_id = hsj.heritage_site_id
+ LEFT JOIN heritage_site_category hsc
+ ON hs.category_id = hsc.category_id
+ LEFT JOIN country_area ca
+ ON hsj.country_area_id = ca.country_area_id
+WHERE ca.country_area_id = 47
+ OR ca.country_area_id = 48
+ OR ca.country_area_id = 49
+ ORDER BY ca.country_area_name, hs.site_name, hsc.category_name;

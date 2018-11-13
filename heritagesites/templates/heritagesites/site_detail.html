@@ -1,0 +1,162 @@
+{% extends 'heritagesites/base.html' %}
+   
+   {% load heritagesites_extra %}
+   
+   <!-- safe filter on for raw HTML stored in database -->
+   {% block content %}
+     <header>
+       <div class="row">
+         <div class="col-sm-10">
+           <h2>{{ site.site_name | safe }}</h2>
+         </div>
+         <div class="col-xs-1">
+           {% if user.is_authenticated %}
+             <a class="btn btn-outline-secondary" href="{% url 'site_update' site.pk %}">edit</a>
+           {% endif %}
+         </div>
+         <div class="col-xs-1">
+           {% if user.is_authenticated %}
+             &nbsp;<a class="btn btn-outline-warning" href="{% url 'site_delete' site.pk %}">delete</a>
+           {% endif %}
+         </div>
+       </div>
+     </header>
+   
+     {% if site.country_area.all %}
+       <div class="row">
+         <div class="col-sm-2">
+           <p>Region</p>
+         </div>
+         <div class="col-sm-10">
+           {% spaceless %}
+           <p>
+             {% for country_area in site.country_area.all %}
+               {% if country_area.location.intermediate_region %}
+                 {% ifchanged country_area.location.intermediate_region.intermediate_region_id %}
+                   {% if forloop.first %}
+                     {{ country_area.location.intermediate_region.intermediate_region_name.strip }}
+                   {% else %}
+                     {{ country_area.location.intermediate_region.intermediate_region_name.strip|add_leading_comma }}
+                   {% endif %}
+                 {% endifchanged %}
+               {% elif country_area.location.sub_region %}
+                 {% ifchanged country_area.location.sub_region.sub_region_id %}
+                   {% if forloop.first %}
+                     {{ country_area.location.sub_region.sub_region_name.strip }}
+                   {% else %}
+                     {{ country_area.location.sub_region.sub_region_name.strip|add_leading_comma }}
+                   {% endif %}
+                 {% endifchanged %}
+               {% elif country_area.location.region %}
+                 {% ifchanged country_area.location.region.region_id %}
+                   {% if forloop.first %}
+                     {{ country_area.location.region.region_name.strip }}
+                   {% else %}
+                     {{ country_area.location.region.region_name.strip|add_leading_comma }}
+                   {% endif %}
+                 {% endifchanged %}
+               {% else %}
+                 {% ifchanged country_area.location.planet_id %}
+                   {{ country_area.location.planet.unsd_name.strip }}
+                 {% endifchanged %}
+               {% endif %}
+             {% endfor %}
+           </p>
+           {% endspaceless %}
+         </div>
+       </div>
+   
+       <div class="row">
+         <div class="col-sm-2">
+           <p>Country / Area</p>
+         </div>
+         <div class="col-sm-10">
+           {% spaceless %}
+           <p>
+             {% for country_area in site.country_area.all %}
+               {% if forloop.last %}
+                 {{ country_area.country_area_name.strip }} ({{ country_area.iso_alpha3_code.strip }})
+               {% else %}
+                 {{ country_area.country_area_name.strip }} {{ country_area.iso_alpha3_code.strip|add_parens|add_trailing_comma }}
+               {% endif %}
+             {% endfor %}
+           </p>
+           {% endspaceless %}
+         </div>
+       </div>
+   
+     {% endif %}
+   
+     {% if site.heritage_site_category.category_name %}
+       <div class="row">
+         <div class="col-sm-2">
+           <p>Category</p>
+         </div>
+         <div class="col-sm-10">
+           <p>{{ site.heritage_site_category.category_name }}</p>
+         </div>
+       </div>
+     {% endif %}
+   
+     <!-- SHOW STUDENTS THAT TEMPLATE NEEDS FIXING: EXTRA <p> -->
+     {% if site.description %}
+       <div class="row">
+         <div class="col-sm-2">
+           <p>Description</p>
+         </div>
+         <div class="col-sm-10">
+           {{ site.description | safe }}
+           <!-- <p>{{ site.description | safe }}</p> -->
+         </div>
+       </div>
+     {% endif %}
+   
+     <!-- SHOW STUDENTS THAT TEMPLATE NEEDS FIXING: EXTRA <p> -->
+     {% if site.justification %}
+       <div class="row">
+         <div class="col-sm-2">
+           <p>Justification</p>
+         </div>
+         <div class="col-sm-10">
+           {{ site.justification | safe }}
+           <!-- <p>{{ site.justification | safe }}</p> -->
+         </div>
+       </div>
+     {% endif %}
+   
+     {% if site.date_inscribed %}
+       <div class="row">
+         <div class="col-sm-2">
+           <p>Date inscribed</p>
+         </div>
+         <div class="col-sm-10">
+           <p>{{ site.date_inscribed }}</p>
+         </div>
+       </div>
+     {% endif %}
+   
+     {% if site.latitude and site.longitude %}
+       <div class="row">
+         <div class="col-sm-2">
+           <p>Geo coordinates</p>
+         </div>
+         <div class="col-sm-4">
+           <p>{{ site.latitude }}, {{ site.longitude }} (<span style="font-style:italic">lat</span>.,
+             <span style="font-style:italic">long</span>.)</p>
+         </div>
+       </div>
+     {% endif %}
+   
+     {% if site.area_hectares %}
+       <div class="row">
+         <div class="col-sm-2">
+           <p>Area</p>
+         </div>
+         <div class="col-sm-10">
+           <p>{{ site.area_hectares }} hectares</p>
+         </div>
+       </div>
+     {% endif %}
+   {% endblock content %}
+   
+
