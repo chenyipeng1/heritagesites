@@ -22,7 +22,7 @@
        </div>
      </header>
    
-     {% if site.country_area.all %}
+<!--      {% if site.country_area.all %}
        <div class="row">
          <div class="col-sm-2">
            <p>Region</p>
@@ -85,8 +85,56 @@
          </div>
        </div>
    
-     {% endif %}
-   
+     {% endif %} -->
+
+    {% if site.region_names %}
+      <div class="row">
+        <div class="col-sm-2">
+          <p>region_names</p>
+        </div>
+        <div class="col-sm-10">
+          <p>{{ site.region_names }}</p>
+        </div>
+      </div>
+    {% endif %}   
+
+    {% if site.sub_region_names %}
+      <div class="row">
+        <div class="col-sm-2">
+          <p>sub_region_names</p>
+        </div>
+        <div class="col-sm-10">
+          <p>{{ site.sub_region_names }}</p>
+        </div>
+      </div>
+    {% endif %} 
+
+    {% if site.intermediate_region_names %}
+      <div class="row">
+        <div class="col-sm-2">
+          <p>intermediate_region_names</p>
+        </div>
+        <div class="col-sm-10">
+          <p>{{ site.intermediate_region_names }}</p>
+        </div>
+      </div>
+    {% endif %} 
+
+    {% if site.country_area_names %}
+      <div class="row">
+        <div class="col-sm-2">
+          <p>country_area_names</p>
+        </div>
+        <div class="col-sm-10">
+          <p>{{ site.country_area_names }}</p>
+        </div>
+      </div>
+    {% endif %} 
+
+
+
+
+
      {% if site.heritage_site_category.category_name %}
        <div class="row">
          <div class="col-sm-2">

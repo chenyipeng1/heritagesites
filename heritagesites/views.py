@@ -14,6 +14,9 @@ from .forms import HeritageSiteForm
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 
+from django_filters.views import FilterView
+from .filters import HeritageSiteFilter
+
 def index(request):
 	return HttpResponse("Hello, world. You're at the UNESCO Heritage Sites index page.")
 
@@ -169,6 +172,11 @@ class SiteDeleteView(generic.DeleteView):
 		self.object.delete()
 
 		return HttpResponseRedirect(self.get_success_url())
+
+
+class SiteFilterView(FilterView):
+	filterset_class = HeritageSiteFilter
+	template_name = 'heritagesites/site_filter.html'
 
 
 
